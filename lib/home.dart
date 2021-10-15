@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:fooderlich/cards/author_card.dart';
 import 'package:fooderlich/cards/main_recipe_card.dart';
 
+import 'cards/explore_card.dart';
+
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
 
@@ -15,8 +17,7 @@ class HomeState extends State<Home> {
   static List<Widget> pages = <Widget>[
     const MainRecipeCard(),
     const AuthorCard(),
-    // TODO: Replace with Card3
-    Container(color: Colors.blue)
+    const ExploreCard()
   ];
 
   void onItemTapped(int index) {
@@ -37,12 +38,9 @@ class HomeState extends State<Home> {
         onTap: onItemTapped,
         selectedItemColor: Theme.of(context).textSelectionTheme.selectionColor,
         items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-              icon: Icon(Icons.card_giftcard), label: 'Card'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.card_giftcard), label: 'Card2'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.card_giftcard), label: 'Card3'),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Author'),
+          BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Explore'),
         ],
       ),
     );
