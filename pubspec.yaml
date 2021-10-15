@@ -23,3 +23,9 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/main_recipe_card.png
+    - assets/second_recipe_card.png
+    - assets/third_recipe_card.png
+    - assets/coffee.png
+    - assets/latte.png
