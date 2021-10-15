@@ -8,16 +8,33 @@ class Home extends StatefulWidget {
 }
 
 class HomeState extends State<Home> {
+  int selectedIndex = 0;
+
+  static List<Widget> pages = <Widget>[
+    // TODO: Replace with Card1
+    Container(color: Colors.red),
+    // TODO: Replace with Card2
+    Container(color: Colors.green),
+    // TODO: Replace with Card3
+    Container(color: Colors.blue)
+  ];
+
+  void onItemTapped(int index) {
+    setState(() {
+      selectedIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
           title:
               Text('Fooderlich', style: Theme.of(context).textTheme.headline6)),
-      body: Center(
-          child: Text('Let\'s get cooking 👩‍🍳',
-              style: Theme.of(context).textTheme.headline1)),
+      body: pages[selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
+        currentIndex: selectedIndex,
+        onTap: onItemTapped,
         selectedItemColor: Theme.of(context).textSelectionTheme.selectionColor,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
