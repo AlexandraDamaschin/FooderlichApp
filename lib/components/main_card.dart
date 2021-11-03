@@ -1,13 +1,15 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:fooderlich/themes/fooderlich_theme.dart';
 
-class MainRecipeCard extends StatelessWidget {
-  const MainRecipeCard({Key? key}) : super(key: key);
+import '../models/models.dart';
 
-  final String category = 'Editor\'s Choice';
-  final String title = 'The Art of Dough';
-  final String description = 'Learn to make the perfect bread.';
-  final String chef = 'Ray Wenderlich';
+class MainCard extends StatelessWidget {
+  final ExploreRecipe recipe;
+
+  const MainCard({
+    Key? key,
+    required this.recipe,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,19 +18,19 @@ class MainRecipeCard extends StatelessWidget {
         child: Stack(
           children: [
             Text(
-              category,
+              recipe.subtitle,
               style: FooderlichTheme.darkTextTheme.bodyText1,
             ),
             Positioned(
               child: Text(
-                title,
+                recipe.title,
                 style: FooderlichTheme.darkTextTheme.headline2,
               ),
               top: 20,
             ),
             Positioned(
               child: Text(
-                description,
+                recipe.message,
                 style: FooderlichTheme.darkTextTheme.bodyText1,
               ),
               bottom: 30,
@@ -36,7 +38,7 @@ class MainRecipeCard extends StatelessWidget {
             ),
             Positioned(
               child: Text(
-                chef,
+                recipe.authorName,
                 style: FooderlichTheme.darkTextTheme.bodyText1,
               ),
               bottom: 10,
@@ -45,12 +47,17 @@ class MainRecipeCard extends StatelessWidget {
           ],
         ),
         padding: const EdgeInsets.all(16),
-        constraints: const BoxConstraints.expand(width: 350, height: 450),
-        decoration: const BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage('assets/main_recipe_card.png'),
-                fit: BoxFit.cover),
-            borderRadius: BorderRadius.all(Radius.circular(10.0))),
+        constraints: const BoxConstraints.expand(
+          width: 350,
+          height: 450,
+        ),
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(recipe.backgroundImage),
+            fit: BoxFit.cover,
+          ),
+          borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+        ),
       ),
     );
   }

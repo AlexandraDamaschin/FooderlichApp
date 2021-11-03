@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:fooderlich/components/circle_image.dart';
 import 'package:fooderlich/themes/fooderlich_theme.dart';
-import 'circle_image.dart';
 
-class AuthorCardDetails extends StatefulWidget {
+class AuthorCard extends StatefulWidget {
   final String authorName;
   final String title;
   final ImageProvider? imageProvider;
 
-  const AuthorCardDetails({
+  const AuthorCard({
     Key? key,
     required this.authorName,
     required this.title,
@@ -15,11 +15,11 @@ class AuthorCardDetails extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<AuthorCardDetails> createState() => _AuthorCardDetailsState();
+  _AuthorCardState createState() => _AuthorCardState();
 }
 
-class _AuthorCardDetailsState extends State<AuthorCardDetails> {
-  bool isFavorite = false;
+class _AuthorCardState extends State<AuthorCard> {
+  bool _isFavorited = false;
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +40,7 @@ class _AuthorCardDetailsState extends State<AuthorCardDetails> {
                 children: [
                   Text(
                     widget.authorName,
-                    style: FooderlichTheme.lightTextTheme.headline3,
+                    style: FooderlichTheme.lightTextTheme.headline2,
                   ),
                   Text(
                     widget.title,
@@ -51,14 +51,15 @@ class _AuthorCardDetailsState extends State<AuthorCardDetails> {
             ],
           ),
           IconButton(
-              icon: Icon(isFavorite ? Icons.favorite : Icons.favorite_border),
-              iconSize: 30,
-              color: Colors.red[400],
-              onPressed: () {
-                const snackBar = SnackBar(content: Text('Favorite Pressed'));
-                ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                isFavorite = !isFavorite;
-              }),
+            icon: Icon(_isFavorited ? Icons.favorite : Icons.favorite_border),
+            iconSize: 30,
+            color: Colors.red[400],
+            onPressed: () {
+              setState(() {
+                _isFavorited = !_isFavorited;
+              });
+            },
+          ),
         ],
       ),
     );

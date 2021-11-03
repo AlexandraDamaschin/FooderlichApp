@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:fooderlich/cards/author_card.dart';
+import 'package:fooderlich/components/author_card.dart';
 import 'package:fooderlich/cards/main_recipe_card.dart';
-
-import 'cards/explore_card.dart';
+import 'package:fooderlich/screens/explore_screen.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -17,7 +16,7 @@ class HomeState extends State<Home> {
   static List<Widget> pages = <Widget>[
     const MainRecipeCard(),
     const AuthorCard(),
-    const ExploreCard()
+    ExploreScreen()
   ];
 
   void onItemTapped(int index) {
