@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:fooderlich/components/author_card.dart';
-import 'package:fooderlich/cards/main_recipe_card.dart';
+import 'package:fooderlich/components/main_card.dart';
+import 'package:fooderlich/components/second_card.dart';
 import 'package:fooderlich/screens/explore_screen.dart';
 
 class Home extends StatefulWidget {
@@ -14,8 +14,8 @@ class HomeState extends State<Home> {
   int selectedIndex = 0;
 
   static List<Widget> pages = <Widget>[
-    const MainRecipeCard(),
-    const AuthorCard(),
+    MainCard(),
+    SecondCard(),
     ExploreScreen()
   ];
 
