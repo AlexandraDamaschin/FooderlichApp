@@ -29,7 +29,7 @@ class _GroceryItemScreenState extends State<GroceryItemScreen> {
   Importance importance = Importance.low;
   DateTime dueDate = DateTime.now();
   TimeOfDay timeOfDay = TimeOfDay.now();
-  Color color = Colors.pink;
+  Color currentColor = Colors.pink;
   int currentSliderValue = 0;
 
   @override
@@ -40,7 +40,7 @@ class _GroceryItemScreenState extends State<GroceryItemScreen> {
       name = originalItem.name;
       currentSliderValue = originalItem.quantity;
       importance = originalItem.importance;
-      color = originalItem.color;
+      currentColor = originalItem.color;
       final date = originalItem.date;
       timeOfDay = TimeOfDay(hour: date.hour, minute: date.minute);
       dueDate = date;
@@ -87,7 +87,7 @@ class _GroceryItemScreenState extends State<GroceryItemScreen> {
             buildImportanceField(),
             buildDateField(),
             buildTimeField(context),
-            // TODO 17: Add color picker
+            buildColorPicker(context),
             // TODO 18: Add slider
             // TODO: 19: Add Grocery Tile
           ],
@@ -106,17 +106,17 @@ class _GroceryItemScreenState extends State<GroceryItemScreen> {
         ),
         TextField(
             controller: nameController,
-            cursorColor: color,
+            cursorColor: currentColor,
             decoration: InputDecoration(
               hintText: 'E.g. Apples, Banana, 1 Bag of salt',
               enabledBorder: const UnderlineInputBorder(
                 borderSide: BorderSide(color: Colors.white),
               ),
               focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: color),
+                borderSide: BorderSide(color: currentColor),
               ),
               border: UnderlineInputBorder(
-                borderSide: BorderSide(color: color),
+                borderSide: BorderSide(color: currentColor),
               ),
             ))
       ],
@@ -242,7 +242,51 @@ class _GroceryItemScreenState extends State<GroceryItemScreen> {
     );
   }
 
-  // TODO: Add buildColorPicker()
+  Widget buildColorPicker(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Row(
+          children: [
+            Container(
+              height: 50.0,
+              width: 10.0,
+              color: currentColor,
+            ),
+            const SizedBox(width: 8.0),
+            Text(
+              'Color',
+              style: GoogleFonts.lato(fontSize: 28.0),
+            ),
+          ],
+        ),
+        TextButton(
+            child: const Text('Select'),
+            onPressed: () {
+              showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      content: BlockPicker(
+                        pickerColor: Colors.white,
+                        // 6
+                        onColorChanged: (color) {
+                          setState(() => currentColor = color);
+                        },
+                      ),
+                      actions: [
+                        TextButton(
+                            child: const Text('Save'),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            })
+                      ],
+                    );
+                  });
+            }),
+      ],
+    );
+  }
 
   // TODO: Add buildQuantityField()
 
