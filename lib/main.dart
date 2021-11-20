@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:fooderlich/models/models.dart';
 import 'package:fooderlich/screens/home.dart';
 import 'package:fooderlich/models/grocery_manager.dart';
 import 'package:fooderlich/screens/splash_screen.dart';
@@ -18,9 +19,9 @@ class Fooderlich extends StatefulWidget {
 }
 
 class _FooderlichState extends State<Fooderlich> {
-  final _groceryManager = GroceryManager();
-  final _profileManager = ProfileManager();
-  // TODO: Create AppStateManager
+  final groceryManager = GroceryManager();
+  final profileManager = ProfileManager();
+  final appStateManager = AppStateManager();
   // TODO: Define AppRouter
 
   // TODO: Initialize app router
@@ -30,12 +31,14 @@ class _FooderlichState extends State<Fooderlich> {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (context) => _groceryManager,
+          create: (context) => groceryManager,
         ),
         ChangeNotifierProvider(
-          create: (context) => _profileManager,
+          create: (context) => profileManager,
         ),
-        // TODO: Add AppStateManager ChangeNotifierProvider
+        ChangeNotifierProvider(
+          create: (context) => appStateManager,
+        )
       ],
       child: Consumer<ProfileManager>(
         builder: (context, profileManager, child) {
