@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fooderlich/components/grocery_tile.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:intl/intl.dart';
@@ -69,7 +70,26 @@ class _GroceryItemScreenState extends State<GroceryItemScreen> {
           IconButton(
             icon: const Icon(Icons.check),
             onPressed: () {
-              // TODO 24: Add callback handler
+              final groceryItem = GroceryItem(
+                id: widget.originalItem?.id ?? const Uuid().v1(),
+                name: nameController.text,
+                importance: importance,
+                color: currentColor,
+                quantity: currentSliderValue,
+                date: DateTime(
+                  dueDate.year,
+                  dueDate.month,
+                  dueDate.day,
+                  timeOfDay.hour,
+                  timeOfDay.minute,
+                ),
+              );
+
+              if (widget.isUpdating) {
+                widget.onUpdate(groceryItem);
+              } else {
+                widget.onCreate(groceryItem);
+              }
             },
           )
         ],
@@ -91,7 +111,15 @@ class _GroceryItemScreenState extends State<GroceryItemScreen> {
             buildColorPicker(context),
             const SizedBox(height: 10.0),
             buildQuantityField(),
-            // TODO: 19: Add Grocery Tile
+            GroceryTile(
+                item: GroceryItem(
+                    id: 'previewMode',
+                    name: name,
+                    importance: importance,
+                    color: currentColor,
+                    quantity: currentSliderValue,
+                    date: DateTime(dueDate.year, dueDate.month, dueDate.day,
+                        dueDate.hour, dueDate.minute)))
           ],
         ),
       ),
