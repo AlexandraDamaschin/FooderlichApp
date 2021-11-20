@@ -38,8 +38,9 @@ class AppRouter extends RouterDelegate
       key: navigatorKey,
       onPopPage: handlePopPage,
       pages: [
-        // TODO: Add SplashScreen
-        // TODO: Add LoginScreen
+        if (!appStateManager.isInitialized) SplashScreen.page(),
+        if (appStateManager.isInitialized && !appStateManager.isLoggedIn)
+          LoginScreen.page(),
         // TODO: Add OnboardingScreen
         // TODO: Add Home
         // TODO: Create new item
