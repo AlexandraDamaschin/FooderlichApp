@@ -58,7 +58,10 @@ class _FooderlichState extends State<Fooderlich> {
           return MaterialApp(
             theme: theme,
             title: 'Fooderlich',
-            home: Router(routerDelegate: appRouter),
+            home: Router(
+              routerDelegate: appRouter,
+              backButtonDispatcher: RootBackButtonDispatcher(),
+            ),
           );
         },
       ),
