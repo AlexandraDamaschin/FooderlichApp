@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:fooderlich/models/app_cache.dart';
 
 class FooderlichTab {
   static const int explore = 0;
@@ -12,26 +13,32 @@ class AppStateManager extends ChangeNotifier {
   bool loggedIn = false;
   bool onboardingComplete = false;
   int selectedTab = FooderlichTab.explore;
+  final appCache = AppCache();
 
   bool get isInitialized => initialized;
   bool get isLoggedIn => loggedIn;
   bool get isOnboardingComplete => onboardingComplete;
   int get getSelectedTab => selectedTab;
 
-  void initializeApp() {
+  void initializeApp() async {
+    loggedIn = await appCache.isUserLoggedIn();
+    onboardingComplete = await appCache.didCompleteOnboarding();
+
     Timer(const Duration(milliseconds: 2000), () {
       initialized = true;
       notifyListeners();
     });
   }
 
-  void login(String username, String password) {
+  void login(String username, String password) async {
     loggedIn = true;
+    await appCache.cacheUser();
     notifyListeners();
   }
 
-  void completeOnBoarding() {
+  void completeOnBoarding() async {
     onboardingComplete = true;
+    await appCache.completeOnboarding();
     notifyListeners();
   }
 
@@ -45,11 +52,11 @@ class AppStateManager extends ChangeNotifier {
     notifyListeners();
   }
 
-  void logout() {
-    loggedIn = false;
-    onboardingComplete = false;
+  void logout() async {
     initialized = false;
     selectedTab = 0;
+
+    await appCache.invalidate();
 
     initializeApp();
     notifyListeners();
