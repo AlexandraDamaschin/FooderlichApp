@@ -87,6 +87,30 @@ class AppRouter extends RouterDelegate<AppLink>
   }
 
   @override
+  AppLink get currentConfiguration => getCurrentPath();
+
+  AppLink getCurrentPath() {
+    if (!appStateManager.isLoggedIn) {
+      return AppLink(url: AppLink.loginPath);
+    } else if (!appStateManager.isOnboardingComplete) {
+      return AppLink(url: AppLink.onboardingPath);
+    } else if (profileManager.didSelectUser) {
+      return AppLink(url: AppLink.profilePath);
+    } else if (groceryManager.isCreatingNewItem) {
+      return AppLink(url: AppLink.itemPath);
+    } else if (groceryManager.selectedGroceryItem != null) {
+      final id = groceryManager.selectedGroceryItem?.id;
+      return AppLink(
+        url: AppLink.itemPath,
+        itemId: id,
+      );
+    } else {
+      return AppLink(
+          url: AppLink.homePath, currentTab: appStateManager.getSelectedTab);
+    }
+  }
+
+  @override
   Future<void> setNewRoutePath(AppLink newLink) async {
     switch (newLink.url) {
       case AppLink.profilePath:
