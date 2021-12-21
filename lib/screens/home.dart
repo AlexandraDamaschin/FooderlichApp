@@ -4,6 +4,7 @@ import 'package:fooderlich/screens/explore_screen.dart';
 import 'package:fooderlich/screens/grocery_screen.dart';
 import 'package:fooderlich/screens/recipes_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Home extends StatefulWidget {
   static MaterialPage page(int currentTab) {
@@ -26,6 +27,14 @@ class HomeState extends State<Home> {
     RecipesScreen(),
     const GroceryScreen()
   ];
+  static const String prefSelectedIndexKey = 'selectedIndex';
+  int _selectedIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    getCurrentIndex();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +50,7 @@ class HomeState extends State<Home> {
               profileButton(),
             ],
           ),
-          body: IndexedStack(index: widget.currentTab, children: pages),
+          body: IndexedStack(index: _selectedIndex, children: pages),
           bottomNavigationBar: BottomNavigationBar(
             selectedItemColor:
                 Theme.of(context).textSelectionTheme.selectionColor,
@@ -49,17 +58,18 @@ class HomeState extends State<Home> {
             onTap: (index) {
               Provider.of<AppStateManager>(context, listen: false)
                   .goToTab(index);
+              saveCurrentIndex();
             },
-            items: <BottomNavigationBarItem>[
-              const BottomNavigationBarItem(
+            items: const <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
                 icon: Icon(Icons.explore),
                 label: 'Explore',
               ),
-              const BottomNavigationBarItem(
+              BottomNavigationBarItem(
                 icon: Icon(Icons.book),
                 label: 'Recipes',
               ),
-              const BottomNavigationBarItem(
+              BottomNavigationBarItem(
                 icon: Icon(Icons.list),
                 label: 'To Buy',
               ),
@@ -86,5 +96,22 @@ class HomeState extends State<Home> {
         },
       ),
     );
+  }
+
+  void saveCurrentIndex() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setInt(prefSelectedIndexKey, _selectedIndex);
+  }
+
+  void getCurrentIndex() async {
+    final prefs = await SharedPreferences.getInstance();
+    if (prefs.containsKey(prefSelectedIndexKey)) {
+      setState(() {
+        final index = prefs.getInt(prefSelectedIndexKey);
+        if (index != null) {
+          _selectedIndex = index;
+        }
+      });
+    }
   }
 }
